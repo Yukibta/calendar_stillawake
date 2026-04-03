@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>still awake · content calendar 2026</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #EDE6DC; font-family: 'Georgia', 'Times New Roman', serif; }
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap');
-</style>
-</head>
-<body>
-<div id="root"></div>
-<script>
-const { useState } = React;
+import { useState } from "react";
 
 const COLORS = {
   bg: "#EDE6DC",
@@ -33,6 +16,14 @@ const FORMAT_STYLES = {
   Rest: { bg: "#D9D2C8", text: "#8A7F72", accent: "#8A7F72", dot: "#C4BCB0" },
 };
 
+// Pillar renamed: "Stoic Thought" → "Old Wisdom" to accommodate both Stoic + Taoist content
+const PILLARS = {
+  "Calm Routines": COLORS.agedAmber,
+  "Old Wisdom": COLORS.duskSage,
+  "Late-Night Frame": COLORS.deepNight,
+  "Monthly Reset": COLORS.dustSand,
+};
+
 const WISDOM_SOURCE = {
   stoic: "◦ stoic",
   taoist: "◦ taoist",
@@ -40,51 +31,274 @@ const WISDOM_SOURCE = {
 };
 
 const calendar = [
-  { day: 1, format: "Reel", pillar: "Late-Night Frame", hook: "What you do after 10pm says more about you than your morning routine ever will.", caption: "The house is quiet. You stayed up — on purpose. That's not insomnia. That's reclaiming yourself.", cta: "Comment the time you read this. Don't think. Just type it.", colors: "Dark bg + sage border line", wisdom: null },
-  { day: 2, format: "Carousel", pillar: "Old Wisdom", hook: "6 questions to ask when anxiety takes over at night", caption: "Slide 1: Is this thought about something I can change right now? Slide 2: Am I adding suffering to an event that already happened? Slides 3–5: Full Stoic framework. Slide 6: Is this something I need to solve — or something I need to move through?", cta: "Save this. Next anxiety spiral, open it before you open TikTok.", colors: "Candlelight bg + deep night text", wisdom: WISDOM_SOURCE.both },
-  { day: 3, format: "Story", pillar: "Calm Routines", hook: "Poll: What breaks your night routine most?", caption: "A: Phone spiral  B: Overthinking  C: Baby/kids  D: I have no routine yet", cta: "Vote. I'm building something based on your answer.", colors: "Sage bg + sand type", wisdom: null },
-  { day: 4, format: "Reel", pillar: "Old Wisdom", hook: "Anxiety isn't weakness. It's misdirected control.", caption: "Marcus Aurelius didn't say 'stop worrying.' He said: direct your energy only where your hands can reach. Anxiety is what happens when your mind tries to reach everywhere at once.", cta: "What are you trying to control right now that you can't? Say it out loud in the comments.", colors: "Dark bg + sage accent word", wisdom: WISDOM_SOURCE.stoic },
-  { day: 5, format: "Carousel", pillar: "Calm Routines", hook: "The 20-minute late-night desk reset that actually works", caption: "Step by step. No motivation needed. Built for low-energy nights. Slide through.", cta: "Screenshot slide 3. That's the only step that matters tonight.", colors: "Candlelight bg", wisdom: null },
-  { day: 6, format: "Story", pillar: "Late-Night Frame", hook: "It's quiet. What are you doing right now?", caption: "Respond sticker: working / thinking / existing / can't sleep", cta: "Reply. I read every one.", colors: "Dark bg", wisdom: null },
-  { day: 7, format: "Rest", pillar: null, hook: "Rest day", caption: "No post. Protect your energy.", cta: "", colors: "", wisdom: null },
-  { day: 8, format: "Reel", pillar: "Monthly Reset", hook: "You're not behind. You're at low tide. There's a difference.", caption: "Water doesn't apologize for low tide. It pulls back so it can return with more force. Your energy works the same way. This isn't failure — it's the part of the cycle that makes everything else possible.", cta: "Are you at low, mid, or high tide this week? Comment one word.", colors: "Dark bg + dust sand highlight", wisdom: null },
-  { day: 9, format: "Carousel", pillar: "Old Wisdom", hook: "What Epictetus actually said about anxiety — and what it means at 11pm", caption: "5 slides. Ancient words, modern translation. Built for the overthinker who's tired of being told to 'just breathe.'", cta: "Save this for the next time your brain won't stop. Not when you're calm — when you're not.", colors: "Candlelight bg + deep night text + sage border", wisdom: WISDOM_SOURCE.stoic },
-  { day: 10, format: "Story", pillar: "Calm Routines", hook: "What does your desk look like right now?", caption: "Photo reply prompt. Clean / chaos / somewhere in between.", cta: "Send me a photo. I'll reply to all of them tonight.", colors: "Sage bg", wisdom: null },
-  { day: 11, format: "Reel", pillar: "Late-Night Frame", hook: "This is what a 10pm reset looks like when you have 20 minutes and no energy.", caption: "No productivity aesthetic. No perfect lighting. Real desk. Real tired. Still showing up.", cta: "Tell me one thing you'd do tonight if you only had 20 minutes.", colors: "Dark bg, minimal, silhouette", wisdom: null },
-  { day: 12, format: "Carousel", pillar: "Calm Routines", hook: "Energy-adjusted task selection: how to plan when you don't know how you'll feel", caption: "Stop planning for your best self. Plan for your actual self. Three tiers: low, mid, high. Assign tasks accordingly.", cta: "Which tier are you in today? Save this for the days you can't answer that question.", colors: "Candlelight bg", wisdom: null },
-  { day: 13, format: "Story", pillar: "Old Wisdom", hook: "Old wisdom for a late night — does this land for you?", caption: "'Return to the root is called stillness. Stillness is called returning to one's destiny.' — Laozi, Tao Te Ching Ch. 16. Slider: Hits hard / I needed this / Working on it", cta: "Slide to react. No words needed.", colors: "Dark bg + sage accent", wisdom: WISDOM_SOURCE.taoist },
-  { day: 14, format: "Rest", pillar: null, hook: "Rest day", caption: "No post.", cta: "", colors: "", wisdom: null },
-  { day: 15, format: "Reel", pillar: "Old Wisdom", hook: "The night you stop fighting what you can't change is the night you finally sleep.", caption: "Stoic acceptance says: conserve energy for what responds to your effort. The Taoist version goes one step further — stop needing it to be different at all. Not giving up. Dissolving the grip. Both traditions arrive at the same place: relief.", cta: "What's one thing you've been fighting that doesn't fight back? Comment it. Write it out.", colors: "Dark bg + candlelight text + sage accent", wisdom: WISDOM_SOURCE.both },
-  { day: 16, format: "Carousel", pillar: "Monthly Reset", hook: "Monthly reset: how to close a hard month and actually start fresh", caption: "Not a motivational speech. A system. 4 slides. 4 questions. Done in one sitting.", cta: "Save this for the last night of the month. Set a reminder right now.", colors: "Candlelight bg", wisdom: null },
-  { day: 17, format: "Story", pillar: "Late-Night Frame", hook: "Late-night check-in", caption: "Question sticker: What's taking up the most space in your head tonight?", cta: "Type it. Sometimes naming it is enough.", colors: "Dark bg", wisdom: null },
-  { day: 18, format: "Reel", pillar: "Calm Routines", hook: "I don't have a morning routine. I have a night one. Here's why that changed everything.", caption: "Setting up for tomorrow at night removes the decision fatigue that kills mornings. 3 things. 15 minutes. No willpower required.", cta: "What's one thing you could set up tonight for tomorrow? Not tomorrow — tonight.", colors: "Dark bg + sage border", wisdom: null },
-  { day: 19, format: "Carousel", pillar: "Old Wisdom", hook: "When anxiety feels like an emergency — this is what to do", caption: "6 slides. Practical. No toxic positivity. Based on stoic philosophy and what actually works at 1am.", cta: "Save this. Share it with someone who stays up too late worrying.", colors: "Candlelight bg + deep night + sage accent", wisdom: WISDOM_SOURCE.stoic },
-  { day: 20, format: "Story", pillar: "Calm Routines", hook: "Show me your late-night drink", caption: "Photo prompt. Tea / water / nothing / definitely not coffee at this hour", cta: "Reply with a photo. I'm making a collection.", colors: "Sage bg", wisdom: null },
-  { day: 21, format: "Rest", pillar: null, hook: "Rest day", caption: "No post.", cta: "", colors: "", wisdom: null },
-  { day: 22, format: "Reel", pillar: "Late-Night Frame", hook: "You stayed up again. Not from anxiety. From something quieter.", caption: "There's a difference between being kept awake and choosing to stay. This account is for the ones who choose.", cta: "Why do you stay up? Not the surface answer. The real one.", colors: "Dark bg + candlelight glow", wisdom: null },
-  { day: 23, format: "Carousel", pillar: "Calm Routines", hook: "The Sunday night reset: how to prepare for the week without dread", caption: "5 slides. Honest framework. Works even if Sunday was also a hard day.", cta: "Save for this Sunday. Not next Sunday. This one.", colors: "Candlelight bg", wisdom: null },
-  { day: 24, format: "Story", pillar: "Old Wisdom", hook: "Stoics or Taoists — which lands harder for you tonight?", caption: "Poll: Marcus Aurelius / Epictetus / Seneca / Laozi. I'll do a breakdown of the winner this week.", cta: "Vote. Your answer shapes what I write next.", colors: "Dark bg + sage", wisdom: WISDOM_SOURCE.both },
-  { day: 25, format: "Reel", pillar: "Old Wisdom", hook: "Responsibility without self-judgment: the skill no one talks about", caption: "You can own a mistake and not destroy yourself over it. That's not weakness. That's the work.", cta: "Is there something you're still punishing yourself for? You don't have to say what. Just comment: 'working on it.'", colors: "Dark bg + sage line", wisdom: WISDOM_SOURCE.stoic },
-  { day: 26, format: "Carousel", pillar: "Monthly Reset", hook: "Low tide planning: how to reset when you have almost nothing left", caption: "Built for the nights when even a reset feels like too much. Minimum viable version. 3 questions only.", cta: "Save this for your lowest days. You won't regret having it.", colors: "Sage bg + sand type", wisdom: null },
-  { day: 27, format: "Story", pillar: "Late-Night Frame", hook: "It's late. What are you avoiding?", caption: "Question sticker — open answer.", cta: "Say it. The reply box is a judgment-free zone.", colors: "Dark bg", wisdom: null },
-  { day: 28, format: "Rest", pillar: null, hook: "Rest day", caption: "No post.", cta: "", colors: "", wisdom: null },
-  { day: 29, format: "Reel", pillar: "Monthly Reset", hook: "End of month. Not a recap. A release.", caption: "You don't owe April a perfect performance. You owe yourself an honest reset. Here's mine.", cta: "Name one thing you're leaving behind from this month. Just one.", colors: "Dark bg + candlelight + sage", wisdom: null },
-  { day: 30, format: "Carousel", pillar: "Old Wisdom", hook: "30 days of staying up on purpose — what I learned", caption: "Not a highlight reel. The real version. What worked. What didn't. What stays for May. Both the Stoic and Taoist threads pulled through — and they said the same thing in different voices.", cta: "Save this if April was hard. May doesn't have to be.", colors: "Candlelight bg + deep night text", wisdom: WISDOM_SOURCE.both },
+  // Week 1
+  {
+    day: 1, format: "Reel", pillar: "Late-Night Frame",
+    hook: "What you do after 10pm says more about you than your morning routine ever will.",
+    caption: "The house is quiet. You stayed up — on purpose. That's not insomnia. That's reclaiming yourself.",
+    cta: "Comment the time you read this. Don't think. Just type it.",
+    colors: "Dark bg + sage border line",
+    wisdom: null,
+  },
+  {
+    // MODIFIED: Added Wu Wei question as final slide alongside Stoic questions
+    day: 2, format: "Carousel", pillar: "Old Wisdom",
+    hook: "6 questions to ask when anxiety takes over at night",
+    caption: "Slide 1: Is this thought about something I can change right now? Slide 2: Am I adding suffering to an event that already happened? Slides 3–5: Full Stoic framework. Slide 6: Is this something I need to solve — or something I need to move through?",
+    cta: "Save this. Next anxiety spiral, open it before you open TikTok.",
+    colors: "Candlelight bg + deep night text",
+    wisdom: WISDOM_SOURCE.both,
+  },
+  {
+    day: 3, format: "Story", pillar: "Calm Routines",
+    hook: "Poll: What breaks your night routine most?",
+    caption: "A: Phone spiral  B: Overthinking  C: Baby/kids  D: I have no routine yet",
+    cta: "Vote. I'm building something based on your answer.",
+    colors: "Sage bg + sand type",
+    wisdom: null,
+  },
+  {
+    day: 4, format: "Reel", pillar: "Old Wisdom",
+    hook: "Anxiety isn't weakness. It's misdirected control.",
+    caption: "Marcus Aurelius didn't say 'stop worrying.' He said: direct your energy only where your hands can reach. Anxiety is what happens when your mind tries to reach everywhere at once.",
+    cta: "What are you trying to control right now that you can't? Say it out loud in the comments.",
+    colors: "Dark bg + sage accent word",
+    wisdom: WISDOM_SOURCE.stoic,
+  },
+  {
+    day: 5, format: "Carousel", pillar: "Calm Routines",
+    hook: "The 20-minute late-night desk reset that actually works",
+    caption: "Step by step. No motivation needed. Built for low-energy nights. Slide through.",
+    cta: "Screenshot slide 3. That's the only step that matters tonight.",
+    colors: "Candlelight bg",
+    wisdom: null,
+  },
+  {
+    day: 6, format: "Story", pillar: "Late-Night Frame",
+    hook: "It's quiet. What are you doing right now?",
+    caption: "Respond sticker: working / thinking / existing / can't sleep",
+    cta: "Reply. I read every one.",
+    colors: "Dark bg",
+    wisdom: null,
+  },
+  {
+    day: 7, format: "Rest", pillar: null,
+    hook: "Rest day",
+    caption: "No post. Protect your energy.",
+    cta: "",
+    colors: "",
+    wisdom: null,
+  },
+  // Week 2
+  {
+    // MODIFIED: Leaned fully into the Taoist water metaphor — "water doesn't apologize for low tide"
+    day: 8, format: "Reel", pillar: "Monthly Reset",
+    hook: "You're not behind. You're at low tide. There's a difference.",
+    caption: "Water doesn't apologize for low tide. It pulls back so it can return with more force. Your energy works the same way. This isn't failure — it's the part of the cycle that makes everything else possible.",
+    cta: "Are you at low, mid, or high tide this week? Comment one word.",
+    colors: "Dark bg + dust sand highlight",
+    wisdom: null,
+  },
+  {
+    day: 9, format: "Carousel", pillar: "Old Wisdom",
+    hook: "What Epictetus actually said about anxiety — and what it means at 11pm",
+    caption: "5 slides. Ancient words, modern translation. Built for the overthinker who's tired of being told to 'just breathe.'",
+    cta: "Save this for the next time your brain won't stop. Not when you're calm — when you're not.",
+    colors: "Candlelight bg + deep night text + sage border",
+    wisdom: WISDOM_SOURCE.stoic,
+  },
+  {
+    day: 10, format: "Story", pillar: "Calm Routines",
+    hook: "What does your desk look like right now?",
+    caption: "Photo reply prompt. Clean / chaos / somewhere in between.",
+    cta: "Send me a photo. I'll reply to all of them tonight.",
+    colors: "Sage bg",
+    wisdom: null,
+  },
+  {
+    day: 11, format: "Reel", pillar: "Late-Night Frame",
+    hook: "This is what a 10pm reset looks like when you have 20 minutes and no energy.",
+    caption: "No productivity aesthetic. No perfect lighting. Real desk. Real tired. Still showing up.",
+    cta: "Tell me one thing you'd do tonight if you only had 20 minutes.",
+    colors: "Dark bg, minimal, silhouette",
+    wisdom: null,
+  },
+  {
+    day: 12, format: "Carousel", pillar: "Calm Routines",
+    hook: "Energy-adjusted task selection: how to plan when you don't know how you'll feel",
+    caption: "Stop planning for your best self. Plan for your actual self. Three tiers: low, mid, high. Assign tasks accordingly.",
+    cta: "Which tier are you in today? Save this for the days you can't answer that question.",
+    colors: "Candlelight bg",
+    wisdom: null,
+  },
+  {
+    // MODIFIED: Rotated to a Tao Te Ching quote (Ch. 16 — stillness, returning, the root)
+    day: 13, format: "Story", pillar: "Old Wisdom",
+    hook: "Old wisdom for a late night — does this land for you?",
+    caption: "'Return to the root is called stillness. Stillness is called returning to one's destiny.' — Laozi, Tao Te Ching Ch. 16. Slider: Hits hard / I needed this / Working on it",
+    cta: "Slide to react. No words needed.",
+    colors: "Dark bg + sage accent",
+    wisdom: WISDOM_SOURCE.taoist,
+  },
+  {
+    day: 14, format: "Rest", pillar: null,
+    hook: "Rest day",
+    caption: "No post.",
+    cta: "",
+    colors: "",
+    wisdom: null,
+  },
+  // Week 3
+  {
+    // MODIFIED: Deepened with Taoist dissolving framing alongside Stoic acceptance
+    day: 15, format: "Reel", pillar: "Old Wisdom",
+    hook: "The night you stop fighting what you can't change is the night you finally sleep.",
+    caption: "Stoic acceptance says: conserve energy for what responds to your effort. The Taoist version goes one step further — stop needing it to be different at all. Not giving up. Dissolving the grip. Both traditions arrive at the same place: relief.",
+    cta: "What's one thing you've been fighting that doesn't fight back? Comment it. Write it out.",
+    colors: "Dark bg + candlelight text + sage accent",
+    wisdom: WISDOM_SOURCE.both,
+  },
+  {
+    day: 16, format: "Carousel", pillar: "Monthly Reset",
+    hook: "Monthly reset: how to close a hard month and actually start fresh",
+    caption: "Not a motivational speech. A system. 4 slides. 4 questions. Done in one sitting.",
+    cta: "Save this for the last night of the month. Set a reminder right now.",
+    colors: "Candlelight bg",
+    wisdom: null,
+  },
+  {
+    day: 17, format: "Story", pillar: "Late-Night Frame",
+    hook: "Late-night check-in",
+    caption: "Question sticker: What's taking up the most space in your head tonight?",
+    cta: "Type it. Sometimes naming it is enough.",
+    colors: "Dark bg",
+    wisdom: null,
+  },
+  {
+    day: 18, format: "Reel", pillar: "Calm Routines",
+    hook: "I don't have a morning routine. I have a night one. Here's why that changed everything.",
+    caption: "Setting up for tomorrow at night removes the decision fatigue that kills mornings. 3 things. 15 minutes. No willpower required.",
+    cta: "What's one thing you could set up tonight for tomorrow? Not tomorrow — tonight.",
+    colors: "Dark bg + sage border",
+    wisdom: null,
+  },
+  {
+    day: 19, format: "Carousel", pillar: "Old Wisdom",
+    hook: "When anxiety feels like an emergency — this is what to do",
+    caption: "6 slides. Practical. No toxic positivity. Based on stoic philosophy and what actually works at 1am.",
+    cta: "Save this. Share it with someone who stays up too late worrying.",
+    colors: "Candlelight bg + deep night + sage accent",
+    wisdom: WISDOM_SOURCE.stoic,
+  },
+  {
+    day: 20, format: "Story", pillar: "Calm Routines",
+    hook: "Show me your late-night drink",
+    caption: "Photo prompt. Tea / water / nothing / definitely not coffee at this hour",
+    cta: "Reply with a photo. I'm making a collection.",
+    colors: "Sage bg",
+    wisdom: null,
+  },
+  {
+    day: 21, format: "Rest", pillar: null,
+    hook: "Rest day",
+    caption: "No post.",
+    cta: "",
+    colors: "",
+    wisdom: null,
+  },
+  // Week 4
+  {
+    day: 22, format: "Reel", pillar: "Late-Night Frame",
+    hook: "You stayed up again. Not from anxiety. From something quieter.",
+    caption: "There's a difference between being kept awake and choosing to stay. This account is for the ones who choose.",
+    cta: "Why do you stay up? Not the surface answer. The real one.",
+    colors: "Dark bg + candlelight glow",
+    wisdom: null,
+  },
+  {
+    day: 23, format: "Carousel", pillar: "Calm Routines",
+    hook: "The Sunday night reset: how to prepare for the week without dread",
+    caption: "5 slides. Honest framework. Works even if Sunday was also a hard day.",
+    cta: "Save for this Sunday. Not next Sunday. This one.",
+    colors: "Candlelight bg",
+    wisdom: null,
+  },
+  {
+    // MODIFIED: Expanded poll to include Laozi alongside the Stoics
+    day: 24, format: "Story", pillar: "Old Wisdom",
+    hook: "Stoics or Taoists — which lands harder for you tonight?",
+    caption: "Poll: Marcus Aurelius / Epictetus / Seneca / Laozi. I'll do a breakdown of the winner this week.",
+    cta: "Vote. Your answer shapes what I write next.",
+    colors: "Dark bg + sage",
+    wisdom: WISDOM_SOURCE.both,
+  },
+  {
+    day: 25, format: "Reel", pillar: "Old Wisdom",
+    hook: "Responsibility without self-judgment: the skill no one talks about",
+    caption: "You can own a mistake and not destroy yourself over it. That's not weakness. That's the work.",
+    cta: "Is there something you're still punishing yourself for? You don't have to say what. Just comment: 'working on it.'",
+    colors: "Dark bg + sage line",
+    wisdom: WISDOM_SOURCE.stoic,
+  },
+  {
+    day: 26, format: "Carousel", pillar: "Monthly Reset",
+    hook: "Low tide planning: how to reset when you have almost nothing left",
+    caption: "Built for the nights when even a reset feels like too much. Minimum viable version. 3 questions only.",
+    cta: "Save this for your lowest days. You won't regret having it.",
+    colors: "Sage bg + sand type",
+    wisdom: null,
+  },
+  {
+    day: 27, format: "Story", pillar: "Late-Night Frame",
+    hook: "It's late. What are you avoiding?",
+    caption: "Question sticker — open answer.",
+    cta: "Say it. The reply box is a judgment-free zone.",
+    colors: "Dark bg",
+    wisdom: null,
+  },
+  {
+    day: 28, format: "Rest", pillar: null,
+    hook: "Rest day",
+    caption: "No post.",
+    cta: "",
+    colors: "",
+    wisdom: null,
+  },
+  // Final 2 days
+  {
+    day: 29, format: "Reel", pillar: "Monthly Reset",
+    hook: "End of month. Not a recap. A release.",
+    caption: "You don't owe April a perfect performance. You owe yourself an honest reset. Here's mine.",
+    cta: "Name one thing you're leaving behind from this month. Just one.",
+    colors: "Dark bg + candlelight + sage",
+    wisdom: null,
+  },
+  {
+    day: 30, format: "Carousel", pillar: "Old Wisdom",
+    hook: "30 days of staying up on purpose — what I learned",
+    caption: "Not a highlight reel. The real version. What worked. What didn't. What stays for May. Both the Stoic and Taoist threads pulled through — and they said the same thing in different voices.",
+    cta: "Save this if April was hard. May doesn't have to be.",
+    colors: "Candlelight bg + deep night text",
+    wisdom: WISDOM_SOURCE.both,
+  },
 ];
 
 const DAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-const START_OFFSET = 2;
+
+// April 6 2026 = Monday → offset 0 (Mon-start)
+const START_OFFSET = 0;
 
 function getDisplayDate(dayIndex) {
-  const march18 = new Date(2026, 2, 18);
-  const d = new Date(march18);
-  d.setDate(march18.getDate() + dayIndex);
+  const april6 = new Date(2026, 3, 6);
+  const d = new Date(april6);
+  d.setDate(april6.getDate() + dayIndex);
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  return months[d.getMonth()] + " " + d.getDate();
+  return `${months[d.getMonth()]} ${d.getDate()}`;
 }
 
-function Calendar() {
+export default function Calendar() {
   const [selected, setSelected] = useState(null);
+
   const selectedEntry = selected !== null ? calendar[selected - 1] : null;
   const fs = selectedEntry ? FORMAT_STYLES[selectedEntry.format] : null;
 
@@ -92,151 +306,182 @@ function Calendar() {
   for (let i = 0; i < START_OFFSET; i++) cells.push(null);
   for (let i = 1; i <= 30; i++) cells.push(i);
 
-  return React.createElement('div', {
-    style: { fontFamily: "'Georgia', 'Times New Roman', serif", background: COLORS.bg, minHeight: "100vh", padding: "32px 24px" }
-  },
-    // Header
-    React.createElement('div', { style: { maxWidth: 900, margin: "0 auto 32px" } },
-      React.createElement('div', { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: "1px solid " + COLORS.agedAmber, paddingBottom: 16, marginBottom: 20 } },
-        React.createElement('div', null,
-          React.createElement('div', { style: { fontSize: 11, letterSpacing: 4, color: COLORS.duskSage, marginBottom: 6, textTransform: "uppercase" } }, "@ukastillawake"),
-          React.createElement('div', { style: { fontSize: 28, color: COLORS.deepNight, fontStyle: "italic", fontWeight: 400 } }, "still awake")
-        ),
-        React.createElement('div', { style: { textAlign: "right" } },
-          React.createElement('div', { style: { fontSize: 11, letterSpacing: 3, color: COLORS.agedAmber, textTransform: "uppercase" } }, "Content Calendar"),
-          React.createElement('div', { style: { fontSize: 13, color: COLORS.deepNight, marginTop: 4, letterSpacing: 1 } }, "Mar 18 – Apr 16 · 2026")
-        )
-      ),
-      // Legend
-      React.createElement('div', { style: { display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" } },
-        ...Object.entries(FORMAT_STYLES).map(([fmt, style]) =>
-          React.createElement('div', { key: fmt, style: { display: "flex", alignItems: "center", gap: 7 } },
-            React.createElement('div', { style: { width: 8, height: 8, borderRadius: "50%", background: style.dot } }),
-            React.createElement('span', { style: { fontSize: 11, letterSpacing: 2, color: COLORS.agedAmber, textTransform: "uppercase" } }, fmt)
-          )
-        ),
-        React.createElement('div', { style: { marginLeft: "auto", display: "flex", gap: 14 } },
-          ...Object.entries({ stoic: "◦ stoic", taoist: "◦ taoist", both: "◦ stoic ~ taoist" }).map(([key, label]) =>
-            React.createElement('span', { key, style: { fontSize: 10, letterSpacing: 1, color: COLORS.duskSage, opacity: 0.75 } }, label)
-          )
-        )
-      )
-    ),
+  return (
+    <div style={{ fontFamily: "'Georgia', 'Times New Roman', serif", background: COLORS.bg, minHeight: "100vh", padding: "32px 24px", boxSizing: "border-box" }}>
+      {/* Header */}
+      <div style={{ maxWidth: 900, margin: "0 auto 32px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderBottom: `1px solid ${COLORS.agedAmber}`, paddingBottom: 16, marginBottom: 20 }}>
+          <div>
+            <div style={{ fontSize: 11, letterSpacing: 4, color: COLORS.duskSage, marginBottom: 6, textTransform: "uppercase" }}>@ukastillawake</div>
+            <div style={{ fontSize: 28, color: COLORS.deepNight, fontStyle: "italic", fontWeight: 400 }}>still awake</div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 11, letterSpacing: 3, color: COLORS.agedAmber, textTransform: "uppercase" }}>Content Calendar</div>
+            <div style={{ fontSize: 13, color: COLORS.deepNight, marginTop: 4, letterSpacing: 1 }}>Apr 6 – May 5 · 2026</div>
+          </div>
+        </div>
 
-    // Main layout
-    React.createElement('div', { style: { maxWidth: 900, margin: "0 auto", display: "flex", gap: 28, flexWrap: "wrap" } },
-      // Calendar Grid
-      React.createElement('div', { style: { flex: "1 1 480px" } },
-        React.createElement('div', { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3, marginBottom: 3 } },
-          ...DAYS.map(d => React.createElement('div', { key: d, style: { textAlign: "center", fontSize: 9, letterSpacing: 2, color: COLORS.agedAmber, padding: "6px 0", textTransform: "uppercase" } }, d))
-        ),
-        React.createElement('div', { style: { display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3 } },
-          ...cells.map((day, i) => {
-            if (day === null) return React.createElement('div', { key: "e" + i });
-            const entry = calendar[day - 1];
-            const fmt = entry.format;
-            const style = FORMAT_STYLES[fmt];
-            const isSelected = selected === day;
-            const hasWisdom = entry.wisdom !== null;
-            return React.createElement('div', {
-              key: day,
-              onClick: () => setSelected(isSelected ? null : day),
-              style: {
-                background: isSelected ? COLORS.deepNight : style.bg,
-                border: "1px solid " + (isSelected ? COLORS.duskSage : hasWisdom ? COLORS.duskSage + "55" : "transparent"),
-                borderRadius: 4, padding: "8px 6px", cursor: "pointer",
-                transition: "all 0.15s ease", minHeight: 64,
-                display: "flex", flexDirection: "column", justifyContent: "space-between"
-              }
-            },
-              React.createElement('div', { style: { fontSize: 9, color: isSelected ? COLORS.duskSage : style.text, opacity: 0.55, fontFamily: "monospace", lineHeight: 1 } },
-                getDisplayDate(day - 1),
-                day === 14 && React.createElement('span', { style: { display: "block", fontSize: 7, letterSpacing: 1, color: COLORS.duskSage, opacity: 0.8, marginTop: 2 } }, "↑ MAR"),
-                day === 15 && React.createElement('span', { style: { display: "block", fontSize: 7, letterSpacing: 1, color: COLORS.dustSand, opacity: 0.8, marginTop: 2 } }, "APR ↓")
-              ),
-              fmt !== "Rest" && React.createElement('div', null,
-                React.createElement('div', { style: { fontSize: 7, letterSpacing: 1, color: isSelected ? COLORS.dustSand : style.accent, textTransform: "uppercase", marginTop: 2 } }, fmt),
-                React.createElement('div', { style: { fontSize: 7, color: isSelected ? COLORS.candlelight : style.text, opacity: 0.6, lineHeight: 1.3, marginTop: 2, overflow: "hidden" } }, entry.pillar),
-                hasWisdom && React.createElement('div', { style: { fontSize: 6, color: COLORS.duskSage, opacity: 0.7, marginTop: 2, letterSpacing: 0.5 } }, entry.wisdom)
-              ),
-              fmt === "Rest" && React.createElement('div', { style: { fontSize: 8, color: "#8A7F72", letterSpacing: 1, textTransform: "uppercase" } }, "rest")
-            );
-          })
-        )
-      ),
+        {/* Legend */}
+        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
+          {Object.entries(FORMAT_STYLES).map(([fmt, style]) => (
+            <div key={fmt} style={{ display: "flex", alignItems: "center", gap: 7 }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: style.dot }} />
+              <span style={{ fontSize: 11, letterSpacing: 2, color: COLORS.agedAmber, textTransform: "uppercase" }}>{fmt}</span>
+            </div>
+          ))}
+          <div style={{ marginLeft: "auto", display: "flex", gap: 14 }}>
+            {Object.entries(WISDOM_SOURCE).map(([key, label]) => (
+              <span key={key} style={{ fontSize: 10, letterSpacing: 1, color: COLORS.duskSage, opacity: 0.75 }}>{label}</span>
+            ))}
+          </div>
+        </div>
+      </div>
 
-      // Detail Panel
-      React.createElement('div', { style: { flex: "1 1 280px", minWidth: 260 } },
-        !selectedEntry && React.createElement('div', {
-          style: { background: COLORS.candlelight, borderRadius: 8, padding: 28, minHeight: 200, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", border: "1px solid " + COLORS.dustSand }
-        },
-          React.createElement('div', { style: { fontSize: 11, letterSpacing: 3, color: COLORS.duskSage, textTransform: "uppercase", marginBottom: 12 } }, "Select a day"),
-          React.createElement('div', { style: { fontSize: 14, color: COLORS.deepNight, fontStyle: "italic", lineHeight: 1.6 } }, "Click any date to see the full content brief"),
-          React.createElement('div', { style: { marginTop: 20, fontSize: 10, color: COLORS.agedAmber, opacity: 0.6, letterSpacing: 1 } }, "Days with a sage border contain Taoist or blended wisdom content")
-        ),
+      <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", gap: 28, flexWrap: "wrap" }}>
+        {/* Calendar Grid */}
+        <div style={{ flex: "1 1 480px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3, marginBottom: 3 }}>
+            {DAYS.map(d => (
+              <div key={d} style={{ textAlign: "center", fontSize: 9, letterSpacing: 2, color: COLORS.agedAmber, padding: "6px 0", textTransform: "uppercase" }}>{d}</div>
+            ))}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 3 }}>
+            {cells.map((day, i) => {
+              if (day === null) return <div key={`e${i}`} />;
+              const entry = calendar[day - 1];
+              const fmt = entry.format;
+              const style = FORMAT_STYLES[fmt];
+              const isSelected = selected === day;
+              const hasWisdom = entry.wisdom !== null;
+              return (
+                <div
+                  key={day}
+                  onClick={() => setSelected(isSelected ? null : day)}
+                  style={{
+                    background: isSelected ? COLORS.deepNight : style.bg,
+                    border: `1px solid ${isSelected ? COLORS.duskSage : hasWisdom ? COLORS.duskSage + "55" : "transparent"}`,
+                    borderRadius: 4,
+                    padding: "8px 6px",
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    minHeight: 64,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ fontSize: 9, color: isSelected ? COLORS.duskSage : style.text, opacity: 0.55, fontFamily: "monospace", lineHeight: 1 }}>
+                    {getDisplayDate(day - 1)}
+                    {day === 25 && <span style={{ display: "block", fontSize: 7, letterSpacing: 1, color: COLORS.duskSage, opacity: 0.8, marginTop: 2 }}>↑ APR</span>}
+                    {day === 26 && <span style={{ display: "block", fontSize: 7, letterSpacing: 1, color: COLORS.dustSand, opacity: 0.8, marginTop: 2 }}>MAY ↓</span>}
+                  </div>
+                  {fmt !== "Rest" && (
+                    <>
+                      <div style={{ fontSize: 7, letterSpacing: 1, color: isSelected ? COLORS.dustSand : style.accent, textTransform: "uppercase", marginTop: 2 }}>{fmt}</div>
+                      <div style={{ fontSize: 7, color: isSelected ? COLORS.candlelight : style.text, opacity: 0.6, lineHeight: 1.3, marginTop: 2, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>
+                        {entry.pillar}
+                      </div>
+                      {hasWisdom && (
+                        <div style={{ fontSize: 6, color: COLORS.duskSage, opacity: 0.7, marginTop: 2, letterSpacing: 0.5 }}>
+                          {entry.wisdom}
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {fmt === "Rest" && (
+                    <div style={{ fontSize: 8, color: "#8A7F72", letterSpacing: 1, textTransform: "uppercase" }}>rest</div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
-        selectedEntry && fs && React.createElement('div', {
-          style: { background: fs.bg, borderRadius: 8, padding: 24, border: "1px solid " + fs.accent + "33" }
-        },
-          React.createElement('div', { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 } },
-            React.createElement('div', { style: { fontSize: 11, letterSpacing: 3, color: fs.accent, textTransform: "uppercase" } }, getDisplayDate(selectedEntry.day - 1)),
-            React.createElement('div', { style: { display: "flex", gap: 6, alignItems: "center" } },
-              selectedEntry.wisdom && React.createElement('div', { style: { fontSize: 8, letterSpacing: 1, color: COLORS.duskSage, background: COLORS.duskSage + "22", padding: "2px 7px", borderRadius: 20 } }, selectedEntry.wisdom),
-              React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: fs.text, opacity: 0.5, textTransform: "uppercase", background: fs.accent + "22", padding: "3px 8px", borderRadius: 20 } }, selectedEntry.format)
-            )
-          ),
-          selectedEntry.format !== "Rest" && React.createElement('div', null,
-            React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 } }, selectedEntry.pillar),
-            React.createElement('div', { style: { fontSize: 15, color: fs.text, fontStyle: "italic", lineHeight: 1.55, marginBottom: 16, fontWeight: 400 } }, '"' + selectedEntry.hook + '"'),
-            React.createElement('div', { style: { height: 1, background: fs.accent + "33", marginBottom: 16 } }),
-            React.createElement('div', { style: { marginBottom: 16 } },
-              React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 6 } }, "Caption Direction"),
-              React.createElement('div', { style: { fontSize: 12, color: fs.text, lineHeight: 1.65, opacity: 0.85 } }, selectedEntry.caption)
-            ),
-            React.createElement('div', { style: { background: fs.accent + "18", borderLeft: "2px solid " + fs.accent, padding: "10px 14px", borderRadius: "0 6px 6px 0" } },
-              React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 5 } }, "CTA"),
-              React.createElement('div', { style: { fontSize: 12, color: fs.text, lineHeight: 1.6, fontStyle: "italic" } }, selectedEntry.cta)
-            ),
-            selectedEntry.colors && React.createElement('div', { style: { marginTop: 14, fontSize: 10, color: fs.text, opacity: 0.45, letterSpacing: 1 } }, "◦ " + selectedEntry.colors)
-          ),
-          selectedEntry.format === "Rest" && React.createElement('div', { style: { textAlign: "center", padding: "20px 0" } },
-            React.createElement('div', { style: { fontSize: 18, color: "#8A7F72", fontStyle: "italic" } }, "Rest."),
-            React.createElement('div', { style: { fontSize: 11, color: "#8A7F72", marginTop: 8, opacity: 0.7 } }, "Protect your energy.")
-          )
-        ),
+        {/* Detail Panel */}
+        <div style={{ flex: "1 1 280px", minWidth: 260 }}>
+          {!selectedEntry && (
+            <div style={{ background: COLORS.candlelight, borderRadius: 8, padding: 28, height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", border: `1px solid ${COLORS.dustSand}` }}>
+              <div style={{ fontSize: 11, letterSpacing: 3, color: COLORS.duskSage, textTransform: "uppercase", marginBottom: 12 }}>Select a day</div>
+              <div style={{ fontSize: 14, color: COLORS.deepNight, fontStyle: "italic", lineHeight: 1.6 }}>Click any date to see the full content brief</div>
+              <div style={{ marginTop: 20, fontSize: 10, color: COLORS.agedAmber, opacity: 0.6, letterSpacing: 1 }}>Days with a sage border contain<br/>Taoist or blended wisdom content</div>
+            </div>
+          )}
+          {selectedEntry && fs && (
+            <div style={{ background: fs.bg, borderRadius: 8, padding: 24, border: `1px solid ${fs.accent}33` }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <div style={{ fontSize: 11, letterSpacing: 3, color: fs.accent, textTransform: "uppercase" }}>{getDisplayDate(selectedEntry.day - 1)}</div>
+                <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  {selectedEntry.wisdom && (
+                    <div style={{ fontSize: 8, letterSpacing: 1, color: COLORS.duskSage, background: COLORS.duskSage + "22", padding: "2px 7px", borderRadius: 20 }}>
+                      {selectedEntry.wisdom}
+                    </div>
+                  )}
+                  <div style={{ fontSize: 9, letterSpacing: 2, color: fs.text, opacity: 0.5, textTransform: "uppercase", background: `${fs.accent}22`, padding: "3px 8px", borderRadius: 20 }}>{selectedEntry.format}</div>
+                </div>
+              </div>
 
-        // Stats
-        React.createElement('div', { style: { marginTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } },
-          ...[["Reels", 10, COLORS.deepNight], ["Carousels", 9, COLORS.agedAmber], ["Stories", 7, COLORS.duskSage], ["Rest days", 4, "#C4BCB0"]].map(([label, count, color]) =>
-            React.createElement('div', { key: label, style: { background: COLORS.candlelight, borderRadius: 6, padding: "10px 14px", border: "1px solid " + color + "33" } },
-              React.createElement('div', { style: { fontSize: 18, color, fontFamily: "monospace" } }, count),
-              React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: COLORS.agedAmber, textTransform: "uppercase", opacity: 0.8 } }, label)
-            )
-          )
-        ),
+              {selectedEntry.format !== "Rest" && (
+                <>
+                  <div style={{ fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 10, opacity: 0.8 }}>{selectedEntry.pillar}</div>
 
-        // Wisdom breakdown
-        React.createElement('div', { style: { marginTop: 8, background: COLORS.candlelight, borderRadius: 6, padding: "12px 14px", border: "1px solid " + COLORS.duskSage + "33" } },
-          React.createElement('div', { style: { fontSize: 9, letterSpacing: 2, color: COLORS.duskSage, textTransform: "uppercase", marginBottom: 8 } }, "Old Wisdom Posts"),
-          ...[["Stoic", 4, "◦ stoic"], ["Taoist", 1, "◦ taoist"], ["Both", 3, "◦ stoic ~ taoist"]].map(([label, count, tag]) =>
-            React.createElement('div', { key: label, style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 } },
-              React.createElement('span', { style: { fontSize: 10, color: COLORS.duskSage, opacity: 0.75 } }, tag),
-              React.createElement('span', { style: { fontSize: 12, color: COLORS.deepNight, fontFamily: "monospace" } }, count)
-            )
-          )
-        )
-      )
-    ),
+                  <div style={{ fontSize: 15, color: fs.text, fontStyle: "italic", lineHeight: 1.55, marginBottom: 16, fontWeight: 400 }}>
+                    "{selectedEntry.hook}"
+                  </div>
 
-    // Footer
-    React.createElement('div', { style: { maxWidth: 900, margin: "24px auto 0", textAlign: "center", fontSize: 10, letterSpacing: 2, color: COLORS.agedAmber, opacity: 0.6, textTransform: "uppercase" } },
-      "still awake · 2026 · content system v2"
-    )
+                  <div style={{ height: 1, background: `${fs.accent}33`, marginBottom: 16 }} />
+
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 6 }}>Caption Direction</div>
+                    <div style={{ fontSize: 12, color: fs.text, lineHeight: 1.65, opacity: 0.85 }}>{selectedEntry.caption}</div>
+                  </div>
+
+                  <div style={{ background: `${fs.accent}18`, borderLeft: `2px solid ${fs.accent}`, padding: "10px 14px", borderRadius: "0 6px 6px 0" }}>
+                    <div style={{ fontSize: 9, letterSpacing: 2, color: fs.accent, textTransform: "uppercase", marginBottom: 5 }}>CTA</div>
+                    <div style={{ fontSize: 12, color: fs.text, lineHeight: 1.6, fontStyle: "italic" }}>{selectedEntry.cta}</div>
+                  </div>
+
+                  {selectedEntry.colors && (
+                    <div style={{ marginTop: 14, fontSize: 10, color: fs.text, opacity: 0.45, letterSpacing: 1 }}>
+                      ◦ {selectedEntry.colors}
+                    </div>
+                  )}
+                </>
+              )}
+              {selectedEntry.format === "Rest" && (
+                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                  <div style={{ fontSize: 18, color: "#8A7F72", fontStyle: "italic" }}>Rest.</div>
+                  <div style={{ fontSize: 11, color: "#8A7F72", marginTop: 8, opacity: 0.7 }}>Protect your energy.</div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Stats */}
+          <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            {[["Reels", 10, COLORS.deepNight], ["Carousels", 9, COLORS.agedAmber], ["Stories", 7, COLORS.duskSage], ["Rest days", 4, "#C4BCB0"]].map(([label, count, color]) => (
+              <div key={label} style={{ background: COLORS.candlelight, borderRadius: 6, padding: "10px 14px", border: `1px solid ${color}33` }}>
+                <div style={{ fontSize: 18, color, fontFamily: "monospace" }}>{count}</div>
+                <div style={{ fontSize: 9, letterSpacing: 2, color: COLORS.agedAmber, textTransform: "uppercase", opacity: 0.8 }}>{label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Wisdom breakdown */}
+          <div style={{ marginTop: 8, background: COLORS.candlelight, borderRadius: 6, padding: "12px 14px", border: `1px solid ${COLORS.duskSage}33` }}>
+            <div style={{ fontSize: 9, letterSpacing: 2, color: COLORS.duskSage, textTransform: "uppercase", marginBottom: 8 }}>Old Wisdom Posts</div>
+            {[["Stoic", 4, "◦ stoic"], ["Taoist", 1, "◦ taoist"], ["Both", 3, "◦ stoic ~ taoist"]].map(([label, count, tag]) => (
+              <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                <span style={{ fontSize: 10, color: COLORS.duskSage, opacity: 0.75 }}>{tag}</span>
+                <span style={{ fontSize: 12, color: COLORS.deepNight, fontFamily: "monospace" }}>{count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 900, margin: "24px auto 0", textAlign: "center", fontSize: 10, letterSpacing: 2, color: COLORS.agedAmber, opacity: 0.6, textTransform: "uppercase" }}>
+        still awake · 2026 · content system v2 · apr–may
+      </div>
+    </div>
   );
 }
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(React.createElement(Calendar));
-</script>
-</body>
-</html>
